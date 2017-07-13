@@ -48,11 +48,19 @@
 	    }
 	}
 	
+	selectTile = function(e, picIndex, tileNumber) {
+		alert("seleccionando seleccionando...");
+		debugger
+	}
+	
 	colocarFoto = function(picIndex, source, tileNumber) {
 		var img = document.querySelector(`img[pic-id="${tileNumber}"]`);
 		img.src = source;		
 		var tile = document.querySelector(`div[tile-id="${tileNumber}"]`);
 		tile.imageID = picIndex;
+		tile.addEventListener('click', function(e) {
+			selectTile(e, picIndex, tileNumber);
+		});
 	}
 	
 	colocarTodas = function() {
@@ -85,7 +93,8 @@
 	colocarTodas();
 	console.log("pepe");
 	alert("despues de pepe");
-	debugger
+
+	/*
 	var picIndex = '2';
 	var allTiles = document.querySelectorAll(`.tile`);
 	for (var i = 0; i < 12; i++) {
@@ -94,6 +103,7 @@
 			tile.classList.add('seleccionado');
 		}
 	}
+	*/
 	
 	</script>
 </body>

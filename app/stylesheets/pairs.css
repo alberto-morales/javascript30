@@ -34,6 +34,19 @@ body,html {
   transition: all .07s ease;
 }
 
+.tile {
+  border: .2rem solid black;
+  border-radius: .4rem;
+  margin: 1rem 0.5rem;
+  font-size: 1.5rem;
+  padding: 0;
+  transition: all .07s ease;
+}
+
+div.seleccionado {
+  border: .4rem solid red;
+}
+
 .pic {
 	width: 20rem;
 	height: 14rem;

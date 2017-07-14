@@ -10,24 +10,24 @@
 <body>
 	<div class="tiles">
 		<div class="tilesCol">
-			<div tile-id="1"  class="tile">1  <img pic-id="1" class="pic" /></div>
-			<div tile-id="5"  class="tile">5  <img pic-id="5" class="pic" /></div>
-			<div tile-id="9"  class="tile">9  <img pic-id="9" class="pic" /></div>
+			<div tileID="1"  class="tile">   <img picID="1" class="pic" /></div>
+			<div tileID="5"  class="tile">   <img picID="5" class="pic" /></div>
+			<div tileID="9"  class="tile">   <img picID="9" class="pic" /></div>
 		</div>
 		<div class="tilesCol">
-			<div tile-id="2"  class="tile">2  <img pic-id="2" class="pic" /></div>
-			<div tile-id="6"  class="tile">6  <img pic-id="6" class="pic" /></div>
-			<div tile-id="10"  class="tile">10<img pic-id="10" class="pic" /></div>
+			<div tileID="2"  class="tile">   <img picID="2" class="pic" /></div>
+			<div tileID="6"  class="tile">   <img picID="6" class="pic" /></div>
+			<div tileID="10"  class="tile">  <img picID="10" class="pic" /></div>
 		</div>
 		<div class="tilesCol">
-			<div tile-id="3"  class="tile">3  <img pic-id="3" class="pic" /></div>
-			<div tile-id="7" class="tile">7   <img pic-id="7" class="pic" /></div>
-			<div tile-id="11" class="tile">11 <img pic-id="11" class="pic" /></div>
+			<div tileID="3"  class="tile">   <img picID="3" class="pic" /></div>
+			<div tileID="7" class="tile">    <img picID="7" class="pic" /></div>
+			<div tileID="11" class="tile">   <img picID="11" class="pic" /></div>
 		</div>
 		<div class="tilesCol">
-			<div tile-id="4"  class="tile">4  <img pic-id="4" class="pic" /></div>
-			<div tile-id="8" class="tile">8   <img pic-id="8" class="pic" /></div>
-			<div tile-id="12" class="tile">12 <img pic-id="12" class="pic" /></div>
+			<div tileID="4"  class="tile">   <img picID="4" class="pic" /></div>
+			<div tileID="8" class="tile">    <img picID="8" class="pic" /></div>
+			<div tileID="12" class="tile">   <img picID="12" class="pic" /></div>
 		</div>		
 	</div>
 
@@ -47,23 +47,77 @@
 	        return list[position++ % list.length];
 	    }
 	}
-	
-	selectTile = function(e, picIndex, tileNumber) {
-		alert("seleccionando seleccionando...");
-		debugger
+
+	removeSelected = function(tile) {
+		tile.classList.remove('seleccionado');
+	}
+
+	clearImage = function(image) {
+		image.src = 'images/questionMark.jpg';	
 	}
 	
-	colocarFoto = function(picIndex, source, tileNumber) {
-		var img = document.querySelector(`img[pic-id="${tileNumber}"]`);
-		img.src = source;		
-		var tile = document.querySelector(`div[tile-id="${tileNumber}"]`);
+	getSelectedTiles = function(picIndex) {
+		var result = [];
+		var allTiles = document.querySelectorAll(`.tile`); 
+		for (var i = 0; i < 12; i++) { 
+		  var tile = allTiles[i]; 
+		  if (typeof picIndex === 'undefined' || tile.imageID == picIndex) { 
+			  if (tile.classList.contains('seleccionado')) {
+				  result.push(tile);				  
+			  }
+		  } 
+		} 
+		return result;
+	}
+	
+	selectTile = function(e, picIndex, tileNumber) {
+		var img = document.querySelector(`img[picID="${tileNumber}"]`);
+		img.src = img.source;
+		var tile = document.querySelector(`div[tileID="${tileNumber}"]`);
+		tile.classList.add('seleccionado');
+		var sibblingTiles = getSelectedTiles(picIndex);
+		if (sibblingTiles.length == 2) {
+			var tileA = sibblingTiles[0];
+			var tileB = sibblingTiles[1];
+			setTimeout(function() {
+				removeSelected(tileA);
+				removeSelected(tileB);
+			}, 200);
+		} else {
+			var selectedTiles = getSelectedTiles();
+			if (selectedTiles.length == 2) {
+				var tileA = selectedTiles[0];
+				var tileB = selectedTiles[1];
+				setTimeout(function() {
+					removeSelected(tileA);
+					removeSelected(tileB);
+				}, 200);
+				var firstID = tileA.getAttribute('tileID'); 
+				var imgA = document.querySelector(`img[picID="${firstID}"]`);
+				var secondID = tileB.getAttribute('tileID');
+				var imgB = document.querySelector(`img[picID="${secondID}"]`);
+				setTimeout(function() {
+					clearImage(imgA);
+					clearImage(imgB);
+				}, 700);
+			} else {
+				
+			}
+		}
+	}
+	
+	initializeImage = function(picIndex, source, tileNumber) {
+		var img = document.querySelector(`img[picID="${tileNumber}"]`);
+		img.src = 'images/questionMark.jpg';
+		img.source = source;		
+		var tile = document.querySelector(`div[tileID="${tileNumber}"]`);
 		tile.imageID = picIndex;
 		tile.addEventListener('click', function(e) {
 			selectTile(e, picIndex, tileNumber);
 		});
 	}
 	
-	colocarTodas = function() {
+	initializePanel = function() {
 		/*
 		var sourcePictures = ["http://res.cloudinary.com/albertomorales/image/upload/v1499893208/fruits/grapes.jpg", 
 		                      "http://res.cloudinary.com/albertomorales/image/upload/v1499893146/fruits/cherries.jpg", 
@@ -84,26 +138,13 @@
 		for (var i = 0; i < 6; i++) {
 			var source = sourcePictures[i];
 			var posA = nextRandomFromList();
-			colocarFoto(i, source, posA);
+			initializeImage(i, source, posA);
 			var posB = nextRandomFromList();
-			colocarFoto(i, source, posB);
+			initializeImage(i, source, posB);
 		}
 	}
 
-	colocarTodas();
-	console.log("pepe");
-	alert("despues de pepe");
-
-	/*
-	var picIndex = '2';
-	var allTiles = document.querySelectorAll(`.tile`);
-	for (var i = 0; i < 12; i++) {
-		var tile = allTiles[i];
-		if (tile.imageID == picIndex) {
-			tile.classList.add('seleccionado');
-		}
-	}
-	*/
+	initializePanel();
 	
 	</script>
 </body>

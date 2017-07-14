@@ -1,7 +1,7 @@
 html {
   font-size: 10px;
-  background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center;
-  background-size: cover;
+  background: url(../images/GAME-Word-collage-on-white-background.jpg) bottom center;
+  background-size: cover; 
 }
 
 body,html {
@@ -11,43 +11,36 @@ body,html {
 }
 
 .quitoTiles { 
-  display: flex;
-  flex: 1;
+	display: flex;
+	flex: 1;
 }
 
 .tiles {
-
-  align-items: center;
-  justify-content: center;
+	align-items: center;
+	justify-content: center;
 }
 
 .tilesCol {
-   float: left; 
+	float: left; 
 }
 
 .tile {
-  border: .2rem solid black;
-  border-radius: .4rem;
-  margin: 1rem 0.5rem;
-  font-size: 1.5rem;
-  padding: 0;
-  transition: all .07s ease;
-}
-
-.tile {
-  border: .2rem solid black;
-  border-radius: .4rem;
-  margin: 1rem 0.5rem;
-  font-size: 1.5rem;
-  padding: 0;
-  transition: all .07s ease;
+    border: .2rem solid black;
+    border-radius: .4rem;
+    margin: 3rem 1.5rem;
+    font-size: 1.5rem;
+    padding: 0;
+	transition: all .37s ease;
+	transition-duration: .60s;
 }
 
 div.seleccionado {
-  border: .4rem solid red;
+	transform: scale(1.1);
+	border-color: #ffc600;
+	box-shadow: 0 0 1rem #ffc600;
 }
 
-.pic {
+img.pic {
 	width: 20rem;
 	height: 14rem;
 	padding: 0;

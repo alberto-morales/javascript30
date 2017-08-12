@@ -58,10 +58,10 @@
 	
 	getSelectedTiles = function(picIndex) {
 		var result = [];
-		var allTiles = document.querySelectorAll(`.tile`); 
+		var allTiles = document.querySelectorAll('.tile'); 
 		allTiles.forEach(function(tile, index) {
 		  if (typeof picIndex === 'undefined' || tile.imageID == picIndex) { 
-			  if (tile.classList.contains('seleccionado')) {
+			  if (tile.classList.contains('selected')) {
 				  result.push(tile);				  
 			  }
 		  }                                           
@@ -70,10 +70,10 @@
 	}
 	
 	selectTile = function(e, picIndex, tileNumber) {
-		var img = document.querySelector(`img[picID="${tileNumber}"]`);
+		var img = document.querySelector('img[picID="' + tileNumber + '"]');
 		img.src = img.source;
-		var tile = document.querySelector(`div[tileID="${tileNumber}"]`);
-		tile.classList.add('seleccionado');
+		var tile = document.querySelector('div[tileID="' + tileNumber + '"]');
+		tile.classList.add('selected');
 		var sibblingTiles = getSelectedTiles(picIndex);
 		if (sibblingTiles.length == 2) {
 			var tileA = sibblingTiles[0];
@@ -92,9 +92,9 @@
 					removeSelected(tileB);
 				}, 200);
 				var firstID = tileA.getAttribute('tileID'); 
-				var imgA = document.querySelector(`img[picID="${firstID}"]`);
+				var imgA = document.querySelector('img[picID="' + firstID + '"]');
 				var secondID = tileB.getAttribute('tileID');
-				var imgB = document.querySelector(`img[picID="${secondID}"]`);
+				var imgB = document.querySelector('img[picID="' + secondID + '"]');
 				setTimeout(function() {
 					clearImage(imgA);
 					clearImage(imgB);
@@ -106,10 +106,10 @@
 	}
 	
 	initializeImage = function(picIndex, source, tileNumber) {
-		var img = document.querySelector(`img[picID="${tileNumber}"]`);
+		var img = document.querySelector('img[picID="'+tileNumber+'"]'); // 'img[picID="${tileNumber}"]'
 		img.src = 'images/questionMark.jpg';
 		img.source = source;		
-		var tile = document.querySelector(`div[tileID="${tileNumber}"]`);
+		var tile = document.querySelector('div[tileID="' + tileNumber + '"]');
 		tile.imageID = picIndex;
 		tile.addEventListener('click', function(e) {
 			selectTile(e, picIndex, tileNumber);
